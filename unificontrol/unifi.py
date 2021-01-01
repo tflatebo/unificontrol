@@ -1056,6 +1056,27 @@ class UnifiClient(metaclass=MetaNameFixer):
         method="DELETE",
         )
 
+    list_firewallrule = UnifiAPICall(
+        "List user defined firewall rules",
+        "rest/firewallrule",
+        path_arg_name="firewallrule_id",
+        )
+
+    _raw_set_firewallrule_settings = UnifiAPICall(
+        "Low-level function to set user defined firewallrule settings",
+        "rest/firewallrule",
+        path_arg_name="firewallrule_id",
+        path_arg_optional=False,
+        json_body_name="settings",
+        method="PUT",
+        )
+
+    def set_firewallrule(self, firewallrule_id, enabled):
+        """Enable or disable a user defined firewallrule"""
+        settings = {"enabled": enabled}
+
+        return self._raw_set_firewallrule_settings(firewallrule_id, settings=settings)
+
     list_wlanconf = UnifiAPICall(
         "List wireless LAN settings for all or one network",
         "rest/wlanconf",
